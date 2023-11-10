@@ -1,1 +1,0 @@
-{"version":3,"sourceRoot":"","sources":["../scss/base/_reset.scss","../scss/layout/_body.scss","../scss/layout/_footer.scss","../scss/layout/_header.scss","../scss/layout/_main.scss"],"names":[],"mappings":"AAEA;EACI;EACA;EACA;EACA;;;AAGJ;EACI;;;AAGJ;AAAA;EAEI;EACA;;;AAGJ;EACI;;;ACfJ;EACI;EACA,qBACI;EAIJ,SATO;EAUP;;;ACVJ;EACI;;;ACDJ;EACI;;AAEA;EACI;;;ACJR;EACI","file":"main.css"}

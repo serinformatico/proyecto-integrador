@@ -1,0 +1,22 @@
+1. intalar: npm install netlify-cli --save-dev
+
+2. configurar script:
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview",
+        "netlify": "netlify"
+    },
+
+3. ejecutar inicializacion: npm run netlify init
+4. Recordar ignorar en .gitignore la carpeta que contiene la key: .netlify
+
+5. Pasos para hacer deploy:
+    npm run build
+    git add .
+    git commit -m "Deploy N°002: New version of project"
+    git push
+
+6. Para abrir config del proyecto netlify desde la terminal: npm run netlify open
+7. Para ver info sobre ultimo deploy del proyecto desde la terminal: npm run netlify watch
