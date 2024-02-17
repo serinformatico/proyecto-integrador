@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import "./home.scss";
 
-import { IT_IS_OFF } from "../../constanst/general.js";
+import { IT_IS_OFF } from "../../constants/general.js";
 
 import ProductSearch from "../../components/productSearch/ProductSearch";
 import ProductCard from "../../components/productCard/ProductCard";
@@ -25,10 +25,11 @@ const Home = () => {
                 <Box
                     className="home__section__cards">
                     <ProductCreateCard/>
-                    {products.map((product) => (
+                    {products?.map((product) => (
                         <ProductCard
                             key={product.id}
                             product={product}
+                            setProducts={setProducts}
                             itIsOff={IT_IS_OFF}/>
                     ))}
                 </Box>

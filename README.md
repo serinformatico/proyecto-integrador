@@ -1,21 +1,39 @@
-# Programación Full Stack 08-2023
+# Proyecto Integrador II
 *Bootcamp de Programación Full Stack - EducacionIT*
 
 ### Requerimientos:
-- Node.js v18.17.0
+- Node.js v18.17.1
 - GIT v2.34.1
-- IDE - Visual Studio Code v1.80.1
+- IDE - Visual Studio Code v1.86.2
 - Microsoft Windows o Linux
 
-### Instrucciones:
-- Abrí una terminal CLI en **C:\\** de Windows o en el **/home** de Linux y ejecuta las siguientes instrucciones:
-  - mkdir programacion
-  - cd programacion
-  - git init
-  - git clone https://github.com/serinformatico/FULLSTACK-08-2023-EIT.git
-- Abrí tu IDE y localiza el directorio ***FULLSTACK-08-2023-EIT*** que se te ha creado al finalizar la clonación
-- Para mantener tu repositorio local actualizado, dentro de dicho directorio ejecuta la siguiente instrucción:
-  -  git pull
+### Configuración de Deploy:
+- Instalar la CLI de Netlify
+  - npm install netlify-cli --save-dev
+- Configurar el archivo package.json:
+    ```json
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview",
+        "netlify": "netlify"
+    },
+    ```
+- Inicializar Netlify
+  - npm run netlify init
+- Ignorar la carpeta **.netlify** dentro del archivo .gitignore
+
+### Instrucciones para hacer un Deploy:
+1. Ejecutar los siguientes comandos:
+   - npm run build
+   - git add .
+   - git commit -m "Deploy N°002: New version of project"
+   - git push
+2. Comando que abre la configuración del proyecto en netlify:
+   - npm run netlify open
+3. Comando que muestra información sobre el último deploy:
+   - npm run netlify watch
 
 #### Profesor:
 *Lic. Sergio Regalado Alessi*

@@ -1,6 +1,6 @@
 import "./app.scss";
 
-import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
+import ShoppingCartProvider from "./contexts/ShoppingCartProvider";
 
 import Header from "./components/layout/header/Header";
 import Main from "./components/layout/main/Main";

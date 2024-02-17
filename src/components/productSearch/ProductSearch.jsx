@@ -1,11 +1,10 @@
 import { useEffect } from "react";
-import { Box } from "@mui/material";
+import useProducts from "../../hooks/useProducts.js";
 import PropTypes from "prop-types";
+import { Box } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import "./productSearch.scss";
-
-import { pizzas } from "../../data/data.js";
 
 import InputField from "../form/inputField/InputField.jsx";
 import Button from "../button/Button.jsx";
@@ -14,38 +13,28 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const ProductSearch = (props) => {
     const { setProducts } = props;
+    const { products, searchProducts } = useProducts();
 
     useEffect(() => {
-        setProducts(pizzas);
-    }, []);
+        if (products?.length > 0) {
+            setProducts(products);
+        }
+    }, [products]);
 
     const validationSchema = yup.object({
-        search: yup
+        text: yup
             .string("Ingresa un texto")
             .min(3, "Ingresa 3 o más carateres"),
     });
 
-    const getProducts = (text) => {
-        const preparedText = text.toLowerCase().trim();
-
-        const filterdPizzas = pizzas.filter((pizza) => {
-            const preparedPizza = pizza.name.toLowerCase().trim();
-
-            if (preparedPizza.includes(preparedText)) {
-                return pizza;
-            }
-        });
-
-        setProducts(filterdPizzas);
-    };
-
     const formik = useFormik({
         initialValues: {
-            search: "",
+            text: "",
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            getProducts(values.search);
+            const productsFound = searchProducts(values.text);
+            setProducts(productsFound);
         },
     });
 
@@ -53,7 +42,8 @@ const ProductSearch = (props) => {
         formik.handleChange(event);
 
         if (event.target.value.trim().length === 0) {
-            setProducts(pizzas);
+            const productsFound = searchProducts(event.target.value);
+            setProducts(productsFound);
         }
     };
 
@@ -66,12 +56,12 @@ const ProductSearch = (props) => {
             onSubmit={formik.handleSubmit}>
 
             <InputField
-                name="search"
-                value={formik.values.search}
+                name="text"
+                value={formik.values.text}
                 onChange={(event) => handleOnChange(event)}
                 onBlur={formik.handleBlur}
-                error={formik.touched.search && Boolean(formik.errors.search)}
-                errorMessage={formik.touched.search && formik.errors.search}
+                error={formik.touched.text && Boolean(formik.errors.text)}
+                errorMessage={formik.touched.text && formik.errors.text}
                 inputProps={{ maxLength: 10 }}>
             </InputField>
 

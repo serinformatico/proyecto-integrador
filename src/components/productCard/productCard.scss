@@ -11,6 +11,40 @@ $_width: 100%;
     width: $_width;
     padding: 0.5vw;
 
+    &__floats {
+        position: relative;
+
+        div {
+            position: absolute;
+            top: 1.5rem;
+            right: 0.5rem;
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            button,
+            a {
+                padding: 0.25rem;
+                border-radius: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.75);
+
+                    svg {
+                        fill: var.$colorFontLighter;
+                    }
+                }
+
+                svg {
+                    font-size: var.$fontSizeMD;
+                    fill: var.$colorFontLight;
+                }
+            }
+        }
+    }
+
     &__image {
         width: $_width;
         border-radius: 0.5rem / 0.5rem;
@@ -40,13 +74,21 @@ $_width: 100%;
         :last-child {
             margin-top: auto;
         }
-
-
     }
 
     &__actions {
         display: flex;
         justify-content: center;
         width: $_width;
+    }
+
+    @media (max-width: 650px) {
+        grid-template-columns: 1fr;
+
+        &__buttons {
+            div {
+                top: 0.75rem;
+            }
+        }
     }
 }

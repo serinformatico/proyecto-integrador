@@ -15,7 +15,8 @@ import {
 import "./navbar.scss";
 
 import links from "../../../links/links";
-import { ShoppingCartContext } from "../../../contexts/ShoppingCartContext";
+
+import ShoppingCartContext from "../../../contexts/ShoppingCartContext";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";

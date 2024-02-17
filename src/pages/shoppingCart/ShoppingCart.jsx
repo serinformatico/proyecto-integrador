@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
+import useProducts from "../../hooks/useProducts";
 import { NavLink } from "react-router-dom";
 import { Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import "./shoppingCart.scss";
 
-import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
+import ShoppingCartContext from "../../contexts/ShoppingCartContext";
 
 import Button from "../../components/button/Button";
 import Alert from "../../components/alert/Alert";
@@ -11,12 +12,13 @@ import Alert from "../../components/alert/Alert";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const ShoppingCart = () => {
-    const { shoppingCart, calculateTotal, removeProduct, removeAllProducts, buyProducts } = useContext(ShoppingCartContext);
+    const { shoppingCart, calculateTotal, removeCartProduct, removeAllCartProducts, buyCartProducts } = useContext(ShoppingCartContext);
     const [ openAlert, setOpenAlert ] = useState(false);
+    const { updateProductStock } = useProducts();
 
     const buy = () => {
-        console.log(shoppingCart);
-        buyProducts();
+        updateProductStock(shoppingCart);
+        buyCartProducts();
         setOpenAlert(true);
     };
 
@@ -40,13 +42,13 @@ const ShoppingCart = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody className="shopping-cart__section__table__body">
-                        {shoppingCart.map((item, index) => (
+                        {shoppingCart?.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>{item.name}</TableCell>
                                 <TableCell>{item.amount}</TableCell>
                                 <TableCell>{`$${Number(item.price).toFixed(2)}`}</TableCell>
                                 <TableCell>{`$${Number(item.totalPrice).toFixed(2)}`}</TableCell>
-                                <TableCell><IconButton onClick={() => removeProduct(item.id)}><DeleteIcon/></IconButton></TableCell>
+                                <TableCell><IconButton onClick={() => removeCartProduct(item.id)}><DeleteIcon/></IconButton></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -67,13 +69,14 @@ const ShoppingCart = () => {
                         component={NavLink}
                         to={"/"}
                         color="danger"
-                        onClick={() => removeAllProducts()}>
+                        onClick={() => removeAllCartProducts()}>
                             Cancelar
                     </Button>
                     <Alert
                         openAlert={openAlert}
                         setOpenAlert={setOpenAlert}
-                        message="La compra se procesó correctamente"/>
+                        message="La compra se procesó correctamente"
+                        navigateUrl="/"/>
                 </Box>
             </Box>
         </Box>

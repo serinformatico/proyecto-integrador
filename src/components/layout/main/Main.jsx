@@ -27,6 +27,9 @@ const Main = () => {
                     path="/product"
                     element={<Product/>}/>
                 <Route
+                    path="/product/:id"
+                    element={<Product/>}/>
+                <Route
                     path="/shopping-cart"
                     element={<ShoppingCart/>}/>
                 <Route

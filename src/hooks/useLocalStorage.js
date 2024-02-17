@@ -1,55 +1,60 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+// En React, el useState es asíncrono y se re-renderiza solo cuando se cambia
+// la referencia de un objeto. Por tal motivo, se emplea está técnica de clonado
+// en cada situación de cambio: setLocalStorageItems({ ...itemsRef }).
 
 const useLocalStorage = (initialValue = {}) => {
-    const [ items, setItems ] = useState(initialValue);
+    const itemsRef = useRef({});
+    const [ localStorageItems, setLocalStorageItems ] = useState(itemsRef);
 
-    const exist = (key) => {
-        if (window.localStorage.getItem(key) === null) {
-            return false;
+    const getItemValue = (key) => {
+        const value = window.localStorage.getItem(key);
+
+        if (value) {
+            return JSON.parse(value);
         }
 
-        return true;
+        return null;
+    };
+
+    const setItem = (key, value) => {
+        localStorage.setItem([key], JSON.stringify(value));
+        itemsRef.current[key] = value;
+        setLocalStorageItems({ ...itemsRef.current });
+    };
+
+    const removeItem = (key) => {
+        localStorage.removeItem(key);
+        delete itemsRef.current[key];
+        setLocalStorageItems({ ...itemsRef.current });
+    };
+
+    const clearItems = () => {
+        localStorage.clear();
+        itemsRef.current = {};
+        setLocalStorageItems({ ...itemsRef.current });
     };
 
     const synchronize = (initialValue) => {
-        // Se tiene que sincronizar en un nuevo objeto para evitar complicaciones al renderizar.
-        const synchronizedValues = {};
-
         for (const property in initialValue) {
-            if (!exist(property)) {
-                window.localStorage.setItem(property, JSON.stringify(initialValue[property]));
+            const itemValue = getItemValue(property);
+
+            if (itemValue) {
+                setItem(property, itemValue);
+            } else {
+                setItem(property, initialValue[property]);
             }
-
-            synchronizedValues[property] = JSON.parse(window.localStorage.getItem(property));
         }
-
-        setItems(synchronizedValues);
     };
 
     useEffect(() => {
         synchronize(initialValue);
     }, []);
 
-    const setItemValue = (key, newValue) => {
-        setItems({ ...items, [key]: newValue });
-        window.localStorage.setItem(key, JSON.stringify(newValue));
-    };
-
-    const removeItem = (key) => {
-        const currentItems = { ...items };
-        delete currentItems[key];
-        setItems(currentItems);
-        window.localStorage.removeItem(key);
-    };
-
-    const clearItems = () => {
-        setItems({});
-        window.localStorage.clear();
-    };
-
     return {
-        items,
-        setItemValue,
+        items: localStorageItems,
+        setItem,
         removeItem,
         clearItems,
     };
