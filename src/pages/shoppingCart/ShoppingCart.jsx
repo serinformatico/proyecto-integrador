@@ -14,10 +14,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const ShoppingCart = () => {
     const { shoppingCart, calculateTotal, removeCartProduct, removeAllCartProducts, buyCartProducts } = useContext(ShoppingCartContext);
     const [ openAlert, setOpenAlert ] = useState(false);
-    const { updateProductStock } = useProducts();
+    const { decreaseProductStock } = useProducts();
 
     const buy = () => {
-        updateProductStock(shoppingCart);
+        decreaseProductStock(shoppingCart);
         buyCartProducts();
         setOpenAlert(true);
     };

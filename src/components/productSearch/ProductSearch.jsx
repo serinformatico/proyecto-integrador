@@ -1,10 +1,12 @@
-import { useEffect } from "react";
-import useProducts from "../../hooks/useProducts.js";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useFormik } from "formik";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
+
 import "./productSearch.scss";
+
+import validationSchema from "./productSearch.validation.js";
 
 import InputField from "../form/inputField/InputField.jsx";
 import Button from "../button/Button.jsx";
@@ -12,40 +14,44 @@ import Button from "../button/Button.jsx";
 import SearchIcon from "@mui/icons-material/Search";
 
 const ProductSearch = (props) => {
-    const { setProducts } = props;
-    const { products, searchProducts } = useProducts();
+    const { searchProducts } = props;
+    const [ searchType, setSearchType ] = useState("string");
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (products?.length > 0) {
-            setProducts(products);
-        }
-    }, [products]);
-
-    const validationSchema = yup.object({
-        text: yup
-            .string("Ingresa un texto")
-            .min(3, "Ingresa 3 o más carateres"),
-    });
+    const setProductSearchParams = (params) => {
+        const queryParams = new URLSearchParams(params);
+        const url = queryParams.size > 0 ? `?${queryParams.toString()}` : "";
+        navigate(url);
+    };
 
     const formik = useFormik({
         initialValues: {
-            text: "",
+            search: "",
         },
-        validationSchema: validationSchema,
+        validationSchema: validationSchema(searchType),
         onSubmit: (values) => {
-            const productsFound = searchProducts(values.text);
-            setProducts(productsFound);
+            if (values?.search && values.search.length > 0) {
+                setProductSearchParams({ search: values.search });
+            }
         },
     });
 
     const handleOnChange = (event) => {
         formik.handleChange(event);
 
+        setSearchType((!isNaN(event.target.value)) ? "number" : "string");
+
         if (event.target.value.trim().length === 0) {
-            const productsFound = searchProducts(event.target.value);
-            setProducts(productsFound);
+            setProductSearchParams({});
         }
     };
+
+    useEffect(() => {
+        const params = Object.fromEntries([...searchParams]);
+        searchProducts(params);
+        formik.values.search = params.search ?? "";
+    }, [searchParams]);
 
     return (
         <Box
@@ -56,12 +62,12 @@ const ProductSearch = (props) => {
             onSubmit={formik.handleSubmit}>
 
             <InputField
-                name="text"
-                value={formik.values.text}
+                name="search"
+                value={formik.values.search}
                 onChange={(event) => handleOnChange(event)}
                 onBlur={formik.handleBlur}
-                error={formik.touched.text && Boolean(formik.errors.text)}
-                errorMessage={formik.touched.text && formik.errors.text}
+                error={formik.touched.search && Boolean(formik.errors.search)}
+                errorMessage={formik.touched.search && formik.errors.search}
                 inputProps={{ maxLength: 10 }}>
             </InputField>
 
@@ -71,7 +77,7 @@ const ProductSearch = (props) => {
 };
 
 ProductSearch.propTypes = {
-    setProducts: PropTypes.func.isRequired,
+    searchProducts: PropTypes.func.isRequired,
 };
 
 export default ProductSearch;

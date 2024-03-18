@@ -46,16 +46,15 @@ $_width: 100%;
     }
 
     &__image {
+        height: fit-content;
         width: $_width;
         border-radius: 0.5rem / 0.5rem;
     }
 
     &__content {
-        display: flex;
-        flex-direction: column;
+        display: grid;
         gap: 0.75vw;
 
-        width: $_width;
         padding: 0 !important;
 
         h4 {
@@ -66,9 +65,8 @@ $_width: 100%;
             font-size: var.$fontSizeSM;
             text-align: justify;
 
-            span {
-                font-weight: bold;
-            }
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         :last-child {

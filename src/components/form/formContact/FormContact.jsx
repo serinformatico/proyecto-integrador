@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useFormik } from "formik";
+import axios from "axios";
 import { Box } from "@mui/material";
 import "./formContact.scss";
 
+import { CONSULTS_URL } from "../../../constants/api.js";
 import validationSchema from "./formContact.validation.js";
 
 import InputField from "../inputField/InputField.jsx";
@@ -12,6 +14,12 @@ import Alert from "../../alert/Alert.jsx";
 const FormContact = () => {
     const [ openAlert, setOpenAlert ] = useState(false);
 
+    const sendMail = async (values) => {
+        await axios.post(`${CONSULTS_URL}/send-mail`, values).then((res) => {
+            return res.data;
+        });
+    };
+
     const formik = useFormik({
         initialValues: {
             fullname: "",
@@ -20,8 +28,8 @@ const FormContact = () => {
             consult: "",
         },
         validationSchema: validationSchema,
-        onSubmit: (values, { resetForm }) => {
-            console.log(values);
+        onSubmit: async (values, { resetForm }) => {
+            await sendMail(values);
             setOpenAlert(true);
             resetForm();
         },

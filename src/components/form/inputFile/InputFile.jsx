@@ -65,7 +65,7 @@ const InputFile = (props) => {
 
                     {files?.map((file, index) => (
                         <Box
-                            key={index}
+                            key={`file-${index}`}
                             className="input-file__drop-zone__file">
                             <InsertDriveFileOutlinedIcon/>
                             <span>{file.name}</span>
