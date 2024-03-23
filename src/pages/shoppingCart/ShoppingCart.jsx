@@ -1,26 +1,13 @@
-import { useContext, useState } from "react";
-import useProducts from "../../hooks/useProducts";
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 import { Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import "./shoppingCart.scss";
-
 import ShoppingCartContext from "../../contexts/ShoppingCartContext";
 
-import Button from "../../components/button/Button";
-import Alert from "../../components/alert/Alert";
-
 import DeleteIcon from "@mui/icons-material/Delete";
+import FormShoppingCart from "../../components/form/formShoppingCart/FormShoppingCart";
 
 const ShoppingCart = () => {
-    const { shoppingCart, calculateTotal, removeCartProduct, removeAllCartProducts, buyCartProducts } = useContext(ShoppingCartContext);
-    const [ openAlert, setOpenAlert ] = useState(false);
-    const { decreaseProductStock } = useProducts();
-
-    const buy = () => {
-        decreaseProductStock(shoppingCart);
-        buyCartProducts();
-        setOpenAlert(true);
-    };
+    const { shoppingCart, calculateTotal, removeCartProduct } = useContext(ShoppingCartContext);
 
     return (
         <Box className="shopping-cart">
@@ -43,7 +30,7 @@ const ShoppingCart = () => {
                     </TableHead>
                     <TableBody className="shopping-cart__section__table__body">
                         {shoppingCart?.map((item, index) => (
-                            <TableRow key={index}>
+                            <TableRow key={`item-${index}`}>
                                 <TableCell>{item.name}</TableCell>
                                 <TableCell>{item.amount}</TableCell>
                                 <TableCell>{`$${Number(item.price).toFixed(2)}`}</TableCell>
@@ -59,25 +46,12 @@ const ShoppingCart = () => {
                     </TableBody>
                 </Table>
 
-                <Box className="shopping-cart__section__button-group">
-                    <Button
-                        type="button"
-                        onClick={() => buy()}>
-                        Comprar
-                    </Button>
-                    <Button
-                        component={NavLink}
-                        to={"/"}
-                        color="danger"
-                        onClick={() => removeAllCartProducts()}>
-                            Cancelar
-                    </Button>
-                    <Alert
-                        openAlert={openAlert}
-                        setOpenAlert={setOpenAlert}
-                        message="La compra se procesó correctamente"
-                        navigateUrl="/"/>
+                <Box className="shopping-cart__section__form">
+                    <FormShoppingCart/>
                 </Box>
+
+                <div id="wallet_container"></div>
+
             </Box>
         </Box>
     );

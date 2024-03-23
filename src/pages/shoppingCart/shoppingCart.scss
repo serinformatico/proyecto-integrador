@@ -75,7 +75,7 @@
             }
         }
 
-        &__button-group {
+        &__form {
             align-self: center;
 
             display: flex;
@@ -84,10 +84,6 @@
 
             width: 556px;
             margin-top: 2vh;
-
-            button {
-                width: 100%;
-            }
         }
     }
 
@@ -115,7 +111,7 @@
                 }
             }
 
-            &__button-group {
+            &__form {
                 gap: 1vh;
                 width: 100%;
             }
