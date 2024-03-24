@@ -2,21 +2,37 @@ import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import { Box } from "@mui/material";
+import Axios from "axios";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import "./formShoppingCart.scss";
 
 import ShoppingCartContext from "../../../contexts/ShoppingCartContext.jsx";
 import useProducts from "../../../hooks/useProducts.js";
 
 import validationSchema from "./formShoppingCart.validation.js";
+import { MERCADOPAGO_CREATE_PREFERENCE_URL } from "../../../constants/api.js";
 
 import InputField from "../inputField/InputField.jsx";
 import Button from "../../button/Button.jsx";
 import Alert from "../../alert/Alert.jsx";
 
+initMercadoPago("APP_USR-05fea4ee-2d9f-4f87-8155-a3a6f3f79f49");
+
 const FormShoppingCart = () => {
     const [ openAlert, setOpenAlert ] = useState(false);
-    const { shoppingCart, removeAllCartProducts, buyCartProducts, calculateTotal } = useContext(ShoppingCartContext);
+    const { shoppingCart, buyCartProducts, calculateTotal, removeAllCartProducts } = useContext(ShoppingCartContext);
     const { decreaseProductStock } = useProducts();
+    const [ preferenceId, setPreferenceId ] = useState(null);
+
+    const getMercadoPagoPreferenceID = async () => {
+        const body = {
+            title: "Mi Compara Web",
+            total: calculateTotal(),
+        };
+
+        const response = await Axios.post(MERCADOPAGO_CREATE_PREFERENCE_URL, body);
+        setPreferenceId(response.data.data ?? null);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -26,11 +42,17 @@ const FormShoppingCart = () => {
         },
         validationSchema: validationSchema,
         onSubmit: async (values, { resetForm }) => {
-            values.total = calculateTotal();
-            await buyCartProducts(values);
-            await decreaseProductStock(shoppingCart);
-            setOpenAlert(true);
-            resetForm();
+            if (shoppingCart?.length === 0) {
+                setPreferenceId(null);
+                setOpenAlert(true);
+            } else {
+                await buyCartProducts({ ...values, total: calculateTotal() });
+                await decreaseProductStock(shoppingCart);
+                resetForm();
+                setOpenAlert(true);
+
+                getMercadoPagoPreferenceID();
+            }
         },
     });
 
@@ -63,6 +85,7 @@ const FormShoppingCart = () => {
                 inputProps={{ maxLength: 50 }}/>
 
             <Button type="submit">Comprar</Button>
+
             <Button
                 component={NavLink}
                 to={"/"}
@@ -71,10 +94,24 @@ const FormShoppingCart = () => {
                     Cancelar
             </Button>
 
+            {preferenceId && (
+                <Wallet
+                    initialization={{
+                        preferenceId: preferenceId,
+                        redirectMode: "blank" }}
+                    customization={{
+                        texts: {
+                            action: "pay",
+                            valueProp: "security_details",
+                        },
+                    }}/>
+            )}
+
             <Alert
                 openAlert={openAlert}
                 setOpenAlert={setOpenAlert}
-                message="Tu compra se procesó correctamente"/>
+                severity={shoppingCart?.length > 0 ? "success" : "error"}
+                message= {shoppingCart?.length > 0 ? "Tu compra se procesó correctamente" : "No hay productos en el carrito de compras"}/>
         </Box>
     );
 };

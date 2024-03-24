@@ -7,7 +7,7 @@ import "./alert.scss";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Alert = (props) => {
-    const { openAlert, setOpenAlert, message, redirectUrl } = props;
+    const { openAlert, setOpenAlert, severity, message, redirectUrl } = props;
 
     const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ const Alert = (props) => {
             className="alert"
             in={openAlert}>
             <AlertUI
-                severity="success"
+                severity={severity}
                 action={
                     <IconButton
                         size="small"
@@ -56,10 +56,11 @@ Alert.propTypes = {
     setOpenAlert: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
     redirectUrl: PropTypes.string,
+    severity: PropTypes.string,
 };
 
 Alert.defaultProps = {
-    message: "El formulario se procesó correctamente",
+    severity: "success",
 };
 
 export default Alert;
