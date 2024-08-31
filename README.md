@@ -1,8 +1,8 @@
-# Bootcamp de Programación Full Stack - Front End -  Educación IT
+# Proyecto Integrador II de Programación Full Stack - Educación IT
 
 
 ### Contenido
-- [Bootcamp de Programación Full Stack - Educación IT](#bootcamp-de-programación-full-stack---educación-it)
+- [Proyecto Integrador II de Programación Full Stack - Educación IT](#proyecto-integrador-ii-de-programación-full-stack---educación-it)
     - [Contenido](#contenido)
     - [Descripción](#descripción)
     - [Requerimientos:](#requerimientos)
