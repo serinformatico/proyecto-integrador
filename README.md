@@ -1,20 +1,20 @@
-# Proyecto Integrador II de Programación Full Stack - Educación IT
+# Proyecto Integrador II de Programación Full Stack (Frontend) - Educación IT
 
 
 ### Contenido
-- [Proyecto Integrador II de Programación Full Stack - Educación IT](#proyecto-integrador-ii-de-programación-full-stack---educación-it)
+- [Proyecto Integrador II de Programación Full Stack (Frontend) - Educación IT](#proyecto-integrador-ii-de-programación-full-stack-frontend---educación-it)
     - [Contenido](#contenido)
     - [Descripción](#descripción)
     - [Requerimientos:](#requerimientos)
     - [Instalación](#instalación)
-    - [URL del proyecto en Vercel](#url-del-proyecto-en-vercel)
+    - [URL del proyecto en Netlify.com](#url-del-proyecto-en-netlifycom)
     - [¿Te ha gustado este proyecto?](#te-ha-gustado-este-proyecto)
 
 
 ### Descripción
 El presente proyecto corresponde al curso de **Programación Full Stack**, dictado por el profesor **Lic. Sergio Regalado Alessi** en la institución **Educación IT**.
 
-Su objetivo es aplicar y consolidar los conocimientos adquiridos en desarrollo frontend mediante el uso de herramientas y tecnologías de vanguardia. El resultado es una aplicación robusta, eficiente, mantenible y de alto rendimiento, que demuestra el dominio de los conceptos aprendidos durante el curso.
+Su objetivo es aplicar y consolidar los conocimientos adquiridos en desarrollo Frontend mediante el uso de herramientas y tecnologías de vanguardia. El resultado es una aplicación robusta, eficiente, mantenible y de alto rendimiento, que demuestra el dominio de los conceptos aprendidos durante el curso.
 
 
 ### Requerimientos:
@@ -30,11 +30,11 @@ Para instalar y ejecutar el proyecto, sigue estos pasos:
 1. Abre una terminal en la raíz de tu partición principal o en tu directorio preferido.
 2. Clona el repositorio del proyecto:
     ``` sh
-    git clone https://github.com/serinformatico/proyecto-backend-ch-e1
+    git clone https://github.com/serinformatico/proyecto-integrador-eit2.git
     ```
 3. Navega al directorio del proyecto:
     ``` sh
-    cd proyecto-backend-ch-e1
+    cd proyecto-integrador-eit2
     ```
 4. Instala las dependencias del proyecto:
     ``` sh
@@ -49,7 +49,7 @@ Para instalar y ejecutar el proyecto, sigue estos pasos:
     code .
     ```
 
-### URL del proyecto en Vercel
+### URL del proyecto en Netlify.com
 Puedes acceder a la versión desplegada del proyecto en la siguiente URL:
 [PROYECTO](https://mi-tienda-sergio.netlify.app/)
 
